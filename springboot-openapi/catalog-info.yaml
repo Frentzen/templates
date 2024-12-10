@@ -9,7 +9,7 @@ metadata:
     - openapi
     - java
 spec:
-  owner: team-owner
+  owner: user:default/frentzenamaral
   type: service
   parameters:
     - title: Service Information
