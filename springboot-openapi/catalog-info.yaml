@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Template
+metadata:
+  name: springboot-openapi
+  title: Spring Boot Service with OpenAPI
+  description: Generate a Spring Boot application with OpenAPI and CRUD
+spec:
+  path: ./template.yaml
