@@ -1,0 +1,49 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: springboot-openapi
+  title: Spring Boot Service with OpenAPI
+  description: Generate a Spring Boot application and register its catalog entity
+spec:
+  owner: user:default/frentzenamaral
+  type: service
+  parameters:
+    - title: Service Information
+      required:
+        - name
+        - owner
+      properties:
+        name:
+          type: string
+          title: Service Name
+        owner:
+          type: string
+          title: Owner
+  steps:
+    - id: fetch-repository
+      name: Fetch Template Repository
+      action: fetch:template
+      input:
+        url: https://github.com/your-org/springboot-template.git
+        targetPath: .
+        branch: main
+    - id: create-catalog-info
+      name: Create New Catalog Info
+      action: create:entity
+      input:
+        entity:
+          apiVersion: backstage.io/v1alpha1
+          kind: Component
+          metadata:
+            name: ${{ parameters.name }}
+            description: A Spring Boot service with OpenAPI
+            annotations:
+              backstage.io/visibility: public
+          spec:
+            type: service
+            owner: ${{ parameters.owner }}
+    - id: register
+      name: Register in Backstage Catalog
+      action: catalog:register
+      input:
+        catalogInfoPath: ./catalog-info.yaml
