@@ -24,7 +24,7 @@ spec:
       name: Fetch Template Repository
       action: fetch:template
       input:
-        url: https://github.com/digitalinnovationone/spring-boot-3-rest-api-template.git
+        url: https://github.com/Frentzen/spring-boot-3-rest-api-template.git
         targetPath: .
         branch: main
     - id: register
