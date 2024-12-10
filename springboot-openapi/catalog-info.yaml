@@ -27,12 +27,6 @@ spec:
         url: https://github.com/digitalinnovationone/spring-boot-3-rest-api-template.git
         targetPath: .
         branch: main
-    - id: configure
-      name: Configure the Template
-      action: template:cookiecutter
-      input:
-        values:
-          name: ${{ parameters.name }}
     - id: register
       name: Register in Backstage Catalog
       action: catalog:register
