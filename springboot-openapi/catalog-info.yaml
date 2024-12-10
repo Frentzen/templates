@@ -3,12 +3,38 @@ kind: Template
 metadata:
   name: springboot-openapi
   title: Spring Boot Service with OpenAPI
-  description: Generate a Spring Boot application with OpenAPI and CRUD
+  description: Generate a Spring Boot application with CRUD and OpenAPI functionality
   tags:
     - springboot
     - openapi
     - java
 spec:
-  path: ./template.yaml
   owner: team-owner
   type: service
+  parameters:
+    - title: Service Information
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          title: Service Name
+  steps:
+    - id: fetch-repository
+      name: Fetch Template Repository
+      action: fetch:template
+      input:
+        url: https://github.com/digitalinnovationone/spring-boot-3-rest-api-template.git
+        targetPath: .
+        branch: main
+    - id: configure
+      name: Configure the Template
+      action: template:cookiecutter
+      input:
+        values:
+          name: ${{ parameters.name }}
+    - id: register
+      name: Register in Backstage Catalog
+      action: catalog:register
+      input:
+        catalogInfoPath: ./catalog-info.yaml
