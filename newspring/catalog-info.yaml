@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: springboot-openapi
-  title: Spring Boot Service with OpenAPI
-  description: Generate a Spring Boot application and register its catalog entity
+  name: springboot-openapi-new-version
+  title: BUgggg
+  description: BUgg
 spec:
   owner: user:default/frentzenamaral
   type: service
