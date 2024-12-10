@@ -1,0 +1,16 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: test-template
+  title: Test Template
+  description: A minimal template for testing
+spec:
+  owner: default
+  type: service
+  parameters: []
+  steps:
+    - id: example
+      name: Example Step
+      action: debug:log
+      input:
+        message: "This is a test template"
