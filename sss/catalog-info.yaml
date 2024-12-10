@@ -1,0 +1,34 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: springboot-openapi
+  title: Spring Boot Service with OpenAPI VVV
+  description: Generate a Spring Boot application with CRUD and OpenAPI functionality
+  tags:
+    - springboot
+    - openapi
+    - java
+spec:
+  owner: user:default/frentzenamaral
+  type: service
+  parameters:
+    - title: Service Information
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          title: Service Name
+  steps:
+    - id: fetch-repository
+      name: Fetch Template Repository
+      action: fetch:template
+      input:
+        url: https://github.com/Frentzen/spring-boot-3-rest-api-template.git
+        targetPath: .
+        branch: main
+    - id: register
+      name: Register in Backstage Catalog
+      action: catalog:register
+      input:
+        catalogInfoPath: ./catalog-info.yaml
