@@ -1,0 +1,44 @@
+name: Create Repository from Template
+
+on:
+  workflow_dispatch: # Allow manual trigger for testing
+  repository_dispatch: # Triggered by external tools like Port
+    types:
+      - create-repo # Custom event type from Port
+
+jobs:
+  create_repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v3
+
+      - name: Parse Repository Data from Port
+        env:
+          PORT_PAYLOAD: ${{ github.event.client_payload }}
+        run: |
+          echo "Payload from Port: $PORT_PAYLOAD"
+          echo "Repository Name: $(echo $PORT_PAYLOAD | jq -r '.repository_name')"
+          echo "Visibility: $(echo $PORT_PAYLOAD | jq -r '.visibility')"
+
+      - name: Create New Repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TEMPLATE_REPO: "Frentzen/spring-boot-3-rest-api-template"
+        run: |
+          repo_name=$(echo "${{ github.event.client_payload.repository_name }}" | jq -r)
+          visibility=$(echo "${{ github.event.client_payload.visibility }}" | jq -r)
+          
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$TEMPLATE_REPO/generate \
+            -d "{
+              \"owner\": \"Frentzen\",
+              \"name\": \"$repo_name\",
+              \"description\": \"New repository created by Port workflow\",
+              \"private\": $visibility == \"private\"
+            }"
+
+      - name: Confirm Repository Creation
+        run: echo "Repository $repo_name created successfully!"
